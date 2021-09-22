@@ -2,7 +2,7 @@ import React, { VFC } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { PlayIcon, ChevronRightIcon } from '@heroicons/react/solid';
-import { Disclosure } from '@headlessui/react';
+import { Disclosure, Transition } from '@headlessui/react';
 
 const CourseDetailPage = () => {
   return (
@@ -47,8 +47,8 @@ const CourseSections: VFC = () => {
                           <ChevronRightIcon
                             className={
                               open
-                                ? 'h-5 w-5 text-gray-400 -rotate-90'
-                                : 'h-5 w-5 text-gray-400 rotate-90'
+                                ? 'h-5 w-5 text-gray-400 -rotate-90 duration-200'
+                                : 'h-5 w-5 text-gray-400 rotate-90 duration-200'
                             }
                             aria-hidden="true"
                           />
@@ -60,34 +60,45 @@ const CourseSections: VFC = () => {
                     </div>
                   </div>
                 </Disclosure.Button>
+                {/* <span className="h-96"></span> */}
                 <Disclosure.Panel>
-                  <ul role="list" className="divide-y divide-gray-200">
-                    {courseData.lessons.map((lesson) => {
-                      return (
-                        <li key={lesson.id} className="bg-gray-100">
-                          <Link href={`#${lesson.id}`}>
-                            <a>
-                              <div className="px-4 py-4 flex items-center sm:px-6">
-                                <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
-                                  <div className="truncate">
-                                    <div className="flex text-sm">
-                                      <PlayIcon
-                                        className="h-5 w-5 text-black"
-                                        aria-hidden="true"
-                                      />
-                                      <p className="text-sm leading-5 font-normal text-indigo-600 truncate ml-4">
-                                        {lesson.title}
-                                      </p>
+                  <Transition
+                    show={open}
+                    enter="transition-opacity ease-linear duration-200"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity ease-linear duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <ul role="list" className="divide-y divide-gray-200">
+                      {courseData.lessons.map((lesson) => {
+                        return (
+                          <li key={lesson.id} className="bg-gray-100">
+                            <Link href={`#${lesson.id}`}>
+                              <a>
+                                <div className="px-4 py-4 flex items-center sm:px-6">
+                                  <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
+                                    <div className="truncate">
+                                      <div className="flex text-sm">
+                                        <PlayIcon
+                                          className="h-5 w-5 text-black"
+                                          aria-hidden="true"
+                                        />
+                                        <p className="text-sm leading-5 font-normal text-indigo-600 truncate ml-4">
+                                          {lesson.title}
+                                        </p>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </a>
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                              </a>
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </Transition>
                 </Disclosure.Panel>
               </li>
             )}
