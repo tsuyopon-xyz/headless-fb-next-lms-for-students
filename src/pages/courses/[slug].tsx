@@ -45,7 +45,11 @@ const CourseSections: VFC = () => {
                       <div className="truncate">
                         <div className="flex text-sm">
                           <ChevronRightIcon
-                            className="h-5 w-5 text-gray-400 rotate-90"
+                            className={
+                              open
+                                ? 'h-5 w-5 text-gray-400 -rotate-90'
+                                : 'h-5 w-5 text-gray-400 rotate-90'
+                            }
                             aria-hidden="true"
                           />
                           <p className="text-sm leading-5 font-normal text-gray-500 truncate ml-4">
