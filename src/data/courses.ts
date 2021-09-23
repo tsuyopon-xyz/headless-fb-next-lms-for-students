@@ -38,7 +38,7 @@ export const DUMMY_COURSE_SECTIONS: CourseSection[] = Array.from({
       const lessonNumber = i + 1;
       return {
         id: `lesson-id-${sectionNumber}-${lessonNumber}`,
-        title: 'レッスン' + lessonNumber,
+        title: `レッスン ${sectionNumber}-${lessonNumber}`,
         slug: `lesson-slug-${sectionNumber}-${lessonNumber}`,
         completionMinutes: 5 + i,
 
@@ -52,8 +52,7 @@ export const DUMMY_COURSE_SECTIONS: CourseSection[] = Array.from({
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
       ></iframe>`,
-        description:
-          '<h2>解説</h2><p>ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。</p><br/><p>ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。</p><br/><p>ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。</p><br/><br/><h2>参考リンク</h2><ul><li><a href="https://tsuyopon.xyz" target="_blank">Web白熱教室</a></li><li><a href="https://tsuyopon.xyz" target="_blank">Web白熱教室</a></li><li><a href="https://tsuyopon.xyz" target="_blank">Web白熱教室</a></li></ul>',
+        description: `<h2>解説</h2><p>（レッスン ${sectionNumber}-${lessonNumber}）ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。</p><br/><p>ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。</p><br/><p>ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。</p><br/><br/><h2>参考リンク</h2><ul><li><a href="https://tsuyopon.xyz" target="_blank">Web白熱教室</a></li><li><a href="https://tsuyopon.xyz" target="_blank">Web白熱教室</a></li><li><a href="https://tsuyopon.xyz" target="_blank">Web白熱教室</a></li></ul>`,
         canPreview: false,
       };
     }),

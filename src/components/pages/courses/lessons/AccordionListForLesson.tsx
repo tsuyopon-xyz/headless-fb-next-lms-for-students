@@ -1,15 +1,21 @@
 import React, { VFC } from 'react';
 import Link from 'next/link';
-import { PlayIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import { ChevronRightIcon } from '@heroicons/react/solid';
 import { Disclosure, Transition } from '@headlessui/react';
 import type { Course } from 'src/types/coure';
 
 type Props = {
   course: Course;
+  currentLessonSlug: string;
 };
 
-export const AccordionListForLesson: VFC<Props> = ({ course }) => {
+export const AccordionListForLesson: VFC<Props> = ({
+  course,
+  currentLessonSlug,
+}) => {
   const { sections } = course;
+
+  console.log(currentLessonSlug);
 
   return (
     <div className="bg-white shadow overflow-hidden border rounded-md">
@@ -22,9 +28,12 @@ export const AccordionListForLesson: VFC<Props> = ({ course }) => {
             },
             0
           );
+          const isLessonIncluded = section.lessons.some(
+            (lesson) => lesson.slug === currentLessonSlug
+          );
 
           return (
-            <Disclosure key={i}>
+            <Disclosure key={section.id} defaultOpen={isLessonIncluded}>
               {({ open }) => (
                 <li>
                   <Disclosure.Button className="w-full">
@@ -43,9 +52,7 @@ export const AccordionListForLesson: VFC<Props> = ({ course }) => {
                             <p className="truncate ml-4">{section.title}</p>
                           </div>
                         </div>
-                        <div>
-                          {lessonSize}個のレッスン・合計{sectionTotalMinutes}分
-                        </div>
+                        <div>{lessonSize}個のレッスン</div>
                       </div>
                     </div>
                   </Disclosure.Button>
@@ -64,30 +71,42 @@ export const AccordionListForLesson: VFC<Props> = ({ course }) => {
                         className="divide-y divide-gray-200 list-none"
                       >
                         {section.lessons.map((lesson) => {
+                          const isCurrentLesson =
+                            lesson.slug === currentLessonSlug;
+
                           return (
-                            <li key={lesson.id} className="bg-gray-100">
-                              <Link
-                                href={`/courses/${course.slug}/lessons/${lesson.slug}`}
-                              >
-                                <a>
-                                  <div className="px-4 py-4 flex items-center sm:px-6">
-                                    <div className="text-gray-500 text-md leading-5 font-normal min-w-0 flex-1 flex items-center justify-between">
-                                      <div className="truncate">
-                                        <div className="flex">
-                                          <PlayIcon
-                                            className="h-5 w-5 text-black"
-                                            aria-hidden="true"
-                                          />
+                            <li
+                              key={lesson.id}
+                              className={
+                                isCurrentLesson
+                                  ? 'bg-indigo-100'
+                                  : 'bg-gray-100'
+                              }
+                            >
+                              <div className="px-4 py-4 flex items-center sm:px-6">
+                                <div className="text-gray-500 text-md leading-5 font-normal min-w-0 flex-1 flex items-center justify-between">
+                                  <div className="truncate">
+                                    <div className="flex">
+                                      <div className="flex items-center h-5">
+                                        <input
+                                          type="checkbox"
+                                          className="focus:ring-indigo-50 h-5 w-5 text-pink-600 border-gray-300 rounded"
+                                        />
+                                      </div>
+                                      <Link
+                                        href={`/courses/${course.slug}/lessons/${lesson.slug}`}
+                                      >
+                                        <a>
                                           <p className="text-indigo-600 truncate ml-4">
                                             {lesson.title}
                                           </p>
-                                        </div>
-                                      </div>
-                                      <div>{lesson.completionMinutes}分</div>
+                                        </a>
+                                      </Link>
                                     </div>
                                   </div>
-                                </a>
-                              </Link>
+                                  <div>{lesson.completionMinutes}分</div>
+                                </div>
+                              </div>
                             </li>
                           );
                         })}

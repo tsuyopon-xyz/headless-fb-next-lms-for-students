@@ -53,8 +53,6 @@ const CoursesGridSection: React.VFC = () => {
   const startIndex = perPage * (page - 1);
   const pageCourses = _courses.slice(startIndex, startIndex + perPage);
 
-  console.log('@@@@@@@@hoge', page);
-
   return (
     <>
       <CourseCardGrid courses={pageCourses} />
