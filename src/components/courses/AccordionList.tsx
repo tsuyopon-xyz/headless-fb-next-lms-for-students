@@ -11,7 +11,7 @@ type Props = {
 export const CourseSections: VFC<Props> = ({ courseDataList }) => {
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-md">
-      <ul role="list" className="divide-y divide-gray-200">
+      <ul role="list" className="divide-y divide-gray-200 list-none">
         {courseDataList.map((courseData, i) => (
           <Disclosure key={i}>
             {({ open }) => (
@@ -48,7 +48,10 @@ export const CourseSections: VFC<Props> = ({ courseDataList }) => {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <ul role="list" className="divide-y divide-gray-200">
+                    <ul
+                      role="list"
+                      className="divide-y divide-gray-200 list-none"
+                    >
                       {courseData.lessons.map((lesson) => {
                         return (
                           <li key={lesson.id} className="bg-gray-100">

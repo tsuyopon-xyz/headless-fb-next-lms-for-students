@@ -2,6 +2,7 @@ export type Course = {
   id: string;
   slug: string;
   title: string;
+  difficulty: string; // 初級、中級、上級などのテキストをセットする想定
   prerequisite: string; // 前提
   description: string; // 講座の詳細
   imageUrl: string;

@@ -1,3 +1,11 @@
 @tailwind base;
+
+@layer base {
+  ul {
+    @apply list-disc;
+    @apply list-inside;
+  }
+}
+
 @tailwind components;
 @tailwind utilities;

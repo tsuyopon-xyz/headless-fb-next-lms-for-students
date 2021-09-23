@@ -14,6 +14,19 @@ const CourseDetailPage = () => {
       </Head>
       <PageHeader title="〇〇アプリを作ろう！（講座タイトルを入れる）" />
 
+      {/* 画面サイズが小さい1カラムのときは、右サイドバーの要素を一番上に持ってくる */}
+      <div className="block lg:hidden">
+        <SimpleCard>
+          <PageTextHTMLSection
+            title="このコースの内容"
+            html="<ul><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li></ul>"
+            className="mt-11"
+          />
+        </SimpleCard>
+        <div className="mt-8 lg:mt-3">
+          <Button size="full">このコースをはじめる</Button>
+        </div>
+      </div>
       <div className="mt-8 w-full mx-auto grid grid-cols-1 gap-6 px-0 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
         <div className="lg:col-start-1 lg:col-span-2">
           <PageTextHTMLSection
@@ -45,15 +58,29 @@ const CourseDetailPage = () => {
             <Button size="full">このコースをはじめる</Button>
           </div>
         </div>
-        <section
-          aria-labelledby="timeline-title"
-          className="bg-gray-100 lg:col-start-3 lg:col-span-1"
-        >
-          サイドバー
-        </section>
+
+        {/* 画面サイズが小さい1カラムのときは、右サイドバーの要素を一番上に持ってくる */}
+        <div className="lg:relative lg:col-start-3 lg:col-span-1">
+          <div className="hidden lg:block lg:sticky lg:top-3">
+            <SimpleCard>
+              <PageTextHTMLSection
+                title="このコースの内容"
+                html="<ul><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li></ul>"
+                className="mt-11"
+              />
+            </SimpleCard>
+            <div className="mt-8 lg:mt-3">
+              <Button size="full">このコースをはじめる</Button>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   );
+};
+
+const SimpleCard: React.FC = ({ children }) => {
+  return <div className="rounded-lg shadow-lg border p-6 ">{children}</div>;
 };
 
 export default CourseDetailPage;
