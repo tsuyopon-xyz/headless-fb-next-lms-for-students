@@ -4,53 +4,72 @@ import { CourseSections } from 'src/components/courses/AccordionList';
 import { PageHeader } from 'src/components/common/PageHeader';
 import { PageTextHTMLSection } from 'src/components/common/PageTextHTMLSection';
 import { Button } from 'src/components/common/Button';
-import { DUMMY_COURSE_SECTIONS } from 'src/data/courses';
+import { DUMMY_SINGLE_COURSE } from 'src/data/courses';
+import type { Course } from 'src/types/coure';
 
-const CourseDetailPage = () => {
+type Props = {
+  course: Course;
+};
+
+const CourseDetailPage: React.VFC<Props> = ({
+  course = DUMMY_SINGLE_COURSE,
+}) => {
+  const numberOfSections = course.sections.length;
+  const numberOfLessons = course.sections.reduce((sum, section) => {
+    return sum + section.lessons.length;
+  }, 0);
+  const totalCompletionMinutes = course.sections.reduce((sum, section) => {
+    return (
+      sum +
+      section.lessons.reduce((_sum, lesson) => {
+        return _sum + lesson.completionMinutes;
+      }, 0)
+    );
+  }, 0);
+  const briefNoteHTML = `
+    <ul>
+      <li>難易度: ${course.difficulty}</li>
+      <li>セクションの数: ${numberOfSections}</li>
+      <li>レッスンの数: ${numberOfLessons}</li>
+      <li>合計時間: ${totalCompletionMinutes}分</li>
+    </ul>
+  `;
+
   return (
     <main className="lg:relative max-w-7xl mx-auto px-4 py-6">
       <Head>
-        <title>詳細ページ</title>
+        <title>{course.title}</title>
       </Head>
-      <PageHeader title="〇〇アプリを作ろう！（講座タイトルを入れる）" />
+      <PageHeader title={course.title} />
 
       {/* 画面サイズが小さい1カラムのときは、右サイドバーの要素を一番上に持ってくる */}
       <div className="block lg:hidden">
-        <SimpleCard>
-          <PageTextHTMLSection
-            title="このコースの内容"
-            html="<ul><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li></ul>"
-            className="mt-11"
-          />
-        </SimpleCard>
-        <div className="mt-8 lg:mt-3">
-          <Button size="full">このコースをはじめる</Button>
-        </div>
+        <BriefNoteSection html={briefNoteHTML} />
       </div>
       <div className="mt-8 w-full mx-auto grid grid-cols-1 gap-6 px-0 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
         <div className="lg:col-start-1 lg:col-span-2">
           <PageTextHTMLSection
             title="学習内容"
-            html="<ul><li>〇〇とは何か？</li><li>〇〇とは何か？</li><li>〇〇とは何か？</li></ul>"
+            html={course.learningOverview}
           />
           <div className="mt-8">
             <PageTextHTMLSection
-              title="コースの内容"
-              html="セクションの数: 〇〇・レクチャーの数: 〇〇・総時間: 〇時間〇〇分"
+              title="レッスン一覧"
+              html={`セクションの数: ${numberOfSections}・レッスンの数: ${numberOfLessons}・総時間: ${totalCompletionMinutes}分`}
             />
           </div>
-          <CourseSections courseDataList={DUMMY_COURSE_SECTIONS} />
+          <CourseSections courseDataList={course.sections} />
           <div className="mt-8">
             <PageTextHTMLSection
               title="前提知識"
-              html="<ul><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li></ul>"
+              html={course.prerequisite}
               className="mt-11"
             />
           </div>
           <div className="mt-8">
             <PageTextHTMLSection
               title="講座の詳細"
-              html="<p>ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。</p><br/><p>ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。</p><br/><p>ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。</p>"
+              html={course.description}
               className="mt-11"
             />
           </div>
@@ -62,16 +81,7 @@ const CourseDetailPage = () => {
         {/* 画面サイズが小さい1カラムのときは、右サイドバーの要素を一番上に持ってくる */}
         <div className="lg:relative lg:col-start-3 lg:col-span-1">
           <div className="hidden lg:block lg:sticky lg:top-3">
-            <SimpleCard>
-              <PageTextHTMLSection
-                title="このコースの内容"
-                html="<ul><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li><li>基本的なコマンド操作</li></ul>"
-                className="mt-11"
-              />
-            </SimpleCard>
-            <div className="mt-8 lg:mt-3">
-              <Button size="full">このコースをはじめる</Button>
-            </div>
+            <BriefNoteSection html={briefNoteHTML} />
           </div>
         </div>
       </div>
@@ -81,6 +91,26 @@ const CourseDetailPage = () => {
 
 const SimpleCard: React.FC = ({ children }) => {
   return <div className="rounded-lg shadow-lg border p-6 ">{children}</div>;
+};
+
+type BriefNoteProps = {
+  html: string;
+};
+const BriefNoteSection: React.VFC<BriefNoteProps> = ({ html }) => {
+  return (
+    <>
+      <SimpleCard>
+        <PageTextHTMLSection
+          title="このコースの内容"
+          html={html}
+          className="mt-11"
+        />
+      </SimpleCard>
+      <div className="mt-8 lg:mt-3">
+        <Button size="full">このコースをはじめる</Button>
+      </div>
+    </>
+  );
 };
 
 export default CourseDetailPage;

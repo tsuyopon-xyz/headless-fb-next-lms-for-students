@@ -3,6 +3,7 @@ export type Course = {
   slug: string;
   title: string;
   difficulty: string; // 初級、中級、上級などのテキストをセットする想定
+  learningOverview: string; // 前提
   prerequisite: string; // 前提
   description: string; // 講座の詳細
   imageUrl: string;
@@ -10,7 +11,7 @@ export type Course = {
   updatedAt: string; // 表示用の更新日時
   price: number;
   isPublic: boolean; // true: 講座一覧に表示する, false: 講座一覧に表示しない
-  section: CourseSection;
+  sections: CourseSection[];
 };
 
 export type CourseSection = {

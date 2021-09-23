@@ -1,5 +1,5 @@
 import { CourseEntity } from '../entities/course.entity';
-import type { CourseSection } from 'src/types/coure';
+import type { Course, CourseSection } from 'src/types/coure';
 
 const DUMMY_TITLES = ['HTML', 'CSS', 'JavaScript', 'TypeScript'];
 
@@ -28,13 +28,13 @@ export const courses = Array.from({ length: 30 }).map((_, i) => {
 });
 
 export const DUMMY_COURSE_SECTIONS: CourseSection[] = Array.from({
-  length: 5,
+  length: 10,
 }).map((_, i) => {
   const sectionNumber = i + 1;
   return {
     id: 'section-id-' + sectionNumber,
     title: 'セクション' + sectionNumber,
-    lessons: Array.from({ length: 10 }).map((_, i) => {
+    lessons: Array.from({ length: 5 }).map((_, i) => {
       const lessonNumber = i + 1;
       return {
         id: 'lesson-id-' + lessonNumber,
@@ -48,3 +48,22 @@ export const DUMMY_COURSE_SECTIONS: CourseSection[] = Array.from({
     }),
   };
 });
+
+export const DUMMY_SINGLE_COURSE: Course = {
+  id: 'course-1',
+  slug: 'course-1',
+  title: '〇〇アプリを作ろう！',
+  difficulty: '中級',
+  learningOverview:
+    '<ul><li>〇〇とは何か？</li><li>△△の使い方を覚える</li><li>□□を使いこなせるようになる</li></ul>',
+  prerequisite:
+    '<ul><li>基本的なコマンド操作</li><li>TypeScript</li><li>Next.js</li><li>Git操作</li><li>Vercel</li></ul>',
+  description:
+    '<p>ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。</p><br/><p>ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。</p><br/><p>ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。ここに講座の詳細を記述する。</p>',
+  imageUrl: '',
+  publishedAt: '2021-09-23',
+  updatedAt: '2021-09-23',
+  price: 0,
+  isPublic: true,
+  sections: DUMMY_COURSE_SECTIONS,
+};
