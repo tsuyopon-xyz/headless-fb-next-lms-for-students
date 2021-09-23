@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SearchIcon } from '@heroicons/react/outline';
+import { PageHeader } from 'src/components/common/PageHeader';
 import { CourseCardGrid } from '../../components/common/CourseCardGrid';
 import {
   CoursesPageContext,
@@ -28,16 +29,6 @@ const CoursesPage: React.VFC = () => {
         </div>
       </main>
     </CoursesPageProvider>
-  );
-};
-
-const PageHeader: React.VFC = () => {
-  return (
-    <header>
-      <h1 className="text-3xl font-bold leading-tight text-gray-900 py-10">
-        講座一覧
-      </h1>
-    </header>
   );
 };
 
