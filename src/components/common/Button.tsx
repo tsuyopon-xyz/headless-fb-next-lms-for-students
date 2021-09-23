@@ -1,6 +1,6 @@
 import React from 'react';
 
-type ButtonSize = 'sm' | 'md' | 'lg' | '2lg' | '3lg';
+type ButtonSize = 'sm' | 'md' | 'lg' | '2lg' | '3lg' | 'full';
 
 type Props = {
   size?: ButtonSize;
@@ -22,6 +22,9 @@ export const Button: React.FC<Props> = ({ children, size = 'sm' }) => {
   } else if (size === '3lg') {
     classNameValue =
       'inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500';
+  } else if (size === 'full') {
+    classNameValue =
+      'inline-flex w-full justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500';
   }
 
   return (
