@@ -1,10 +1,14 @@
 import React from 'react';
 
-export const PageHeader: React.VFC = () => {
+type Props = {
+  title: string;
+};
+
+export const PageHeader: React.VFC<Props> = ({ title }) => {
   return (
     <header>
       <h1 className="text-3xl font-bold leading-tight text-gray-900 py-10">
-        講座一覧
+        {title}
       </h1>
     </header>
   );

@@ -19,7 +19,7 @@ const CoursesPage: React.VFC = () => {
       <main className="lg:relative max-w-7xl mx-auto px-4 pb-6">
         <title>講座一覧</title>
         <div className="sm:flex sm:justify-between">
-          <PageHeader />
+          <PageHeader title="講座一覧" />
           <div className="sm:flex sm:items-center sm:w-80">
             <SearchFormSection />
           </div>
