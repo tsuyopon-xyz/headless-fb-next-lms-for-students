@@ -1,6 +1,7 @@
-import React, { VFC } from 'react';
+import React from 'react';
 import Head from 'next/head';
-import { CourseSections } from 'src/components/courses/AccordionList';
+import Link from 'next/link';
+import { AccordionList } from 'src/components/pages/courses/AccordionList';
 import { PageHeader } from 'src/components/common/PageHeader';
 import { PageTextHTMLSection } from 'src/components/common/PageTextHTMLSection';
 import { Button } from 'src/components/common/Button';
@@ -34,6 +35,7 @@ const CourseDetailPage: React.VFC<Props> = ({
       <li>合計時間: ${totalCompletionMinutes}分</li>
     </ul>
   `;
+  const firstLessonSlug = course.sections[0].lessons[0].slug;
 
   return (
     <main className="lg:relative max-w-7xl mx-auto px-4 py-6">
@@ -44,7 +46,7 @@ const CourseDetailPage: React.VFC<Props> = ({
 
       {/* 画面サイズが小さい1カラムのときは、右サイドバーの要素を一番上に持ってくる */}
       <div className="block lg:hidden">
-        <BriefNoteSection html={briefNoteHTML} />
+        <BriefNoteSection html={briefNoteHTML} course={course} />
       </div>
       <div className="mt-8 w-full mx-auto grid grid-cols-1 gap-6 px-0 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
         <div className="lg:col-start-1 lg:col-span-2">
@@ -58,7 +60,7 @@ const CourseDetailPage: React.VFC<Props> = ({
               html={`セクションの数: ${numberOfSections}・レッスンの数: ${numberOfLessons}・総時間: ${totalCompletionMinutes}分`}
             />
           </div>
-          <CourseSections courseDataList={course.sections} />
+          <AccordionList course={course} />
           <div className="mt-8">
             <PageTextHTMLSection
               title="前提知識"
@@ -74,14 +76,18 @@ const CourseDetailPage: React.VFC<Props> = ({
             />
           </div>
           <div className="mt-8">
-            <Button size="full">このコースをはじめる</Button>
+            <Link href={`/courses/${course.slug}/lessons/${firstLessonSlug}`}>
+              <a>
+                <Button size="full">このコースをはじめる</Button>
+              </a>
+            </Link>
           </div>
         </div>
 
         {/* 画面サイズが小さい1カラムのときは、右サイドバーの要素を一番上に持ってくる */}
         <div className="lg:relative lg:col-start-3 lg:col-span-1">
           <div className="hidden lg:block lg:sticky lg:top-3">
-            <BriefNoteSection html={briefNoteHTML} />
+            <BriefNoteSection html={briefNoteHTML} course={course} />
           </div>
         </div>
       </div>
@@ -95,8 +101,11 @@ const SimpleCard: React.FC = ({ children }) => {
 
 type BriefNoteProps = {
   html: string;
+  course: Course;
 };
-const BriefNoteSection: React.VFC<BriefNoteProps> = ({ html }) => {
+const BriefNoteSection: React.VFC<BriefNoteProps> = ({ html, course }) => {
+  const firstLessonSlug = course.sections[0].lessons[0].slug;
+
   return (
     <>
       <SimpleCard>
@@ -107,7 +116,11 @@ const BriefNoteSection: React.VFC<BriefNoteProps> = ({ html }) => {
         />
       </SimpleCard>
       <div className="mt-8 lg:mt-3">
-        <Button size="full">このコースをはじめる</Button>
+        <Link href={`/courses/${course.slug}/lessons/${firstLessonSlug}`}>
+          <a>
+            <Button size="full">このコースをはじめる</Button>
+          </a>
+        </Link>
       </div>
     </>
   );

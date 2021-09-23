@@ -2,19 +2,21 @@ import React, { VFC } from 'react';
 import Link from 'next/link';
 import { PlayIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { Disclosure, Transition } from '@headlessui/react';
-import type { CourseSection } from 'src/types/coure';
+import type { Course } from 'src/types/coure';
 
 type Props = {
-  courseDataList: CourseSection[];
+  course: Course;
 };
 
-export const CourseSections: VFC<Props> = ({ courseDataList }) => {
+export const AccordionListForLesson: VFC<Props> = ({ course }) => {
+  const { sections } = course;
+
   return (
     <div className="bg-white shadow overflow-hidden border rounded-md">
       <ul role="list" className="divide-y divide-gray-200 list-none">
-        {courseDataList.map((courseData, i) => {
-          const lessonSize = courseData.lessons.length;
-          const sectionTotalMinutes = courseData.lessons.reduce(
+        {sections.map((section, i) => {
+          const lessonSize = section.lessons.length;
+          const sectionTotalMinutes = section.lessons.reduce(
             (sumMinutes, lesson) => {
               return sumMinutes + lesson.completionMinutes;
             },
@@ -38,7 +40,7 @@ export const CourseSections: VFC<Props> = ({ courseDataList }) => {
                               }
                               aria-hidden="true"
                             />
-                            <p className="truncate ml-4">{courseData.title}</p>
+                            <p className="truncate ml-4">{section.title}</p>
                           </div>
                         </div>
                         <div>
@@ -61,10 +63,12 @@ export const CourseSections: VFC<Props> = ({ courseDataList }) => {
                         role="list"
                         className="divide-y divide-gray-200 list-none"
                       >
-                        {courseData.lessons.map((lesson) => {
+                        {section.lessons.map((lesson) => {
                           return (
                             <li key={lesson.id} className="bg-gray-100">
-                              <Link href={`#${lesson.id}`}>
+                              <Link
+                                href={`/courses/${course.slug}/lessons/${lesson.slug}`}
+                              >
                                 <a>
                                   <div className="px-4 py-4 flex items-center sm:px-6">
                                     <div className="text-gray-500 text-md leading-5 font-normal min-w-0 flex-1 flex items-center justify-between">
