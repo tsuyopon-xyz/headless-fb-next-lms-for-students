@@ -40,7 +40,7 @@ export const DUMMY_COURSE_SECTIONS: CourseSection[] = Array.from({
         id: 'lesson-id-' + lessonNumber,
         title: 'レッスン' + lessonNumber,
         slug: 'lesson-' + lessonNumber,
-        completionMinutes: 10,
+        completionMinutes: 5 + i,
         movieUrl: 'https://youtu.be/JchsQRonmk8',
         description: 'ここに動画以外の説明文を記述する。',
         canPreview: false,
