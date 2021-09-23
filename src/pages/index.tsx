@@ -86,7 +86,9 @@ const ThreeCoursesSection: VFC = () => {
         </div>
         <div className="flex justify-center mt-10">
           <Button size="3lg">
-            <Link href="/courses">他の講座も見る</Link>
+            <Link href="/courses">
+              <a className="text-white text-lg">他の講座も見る</a>
+            </Link>
           </Button>
         </div>
       </div>

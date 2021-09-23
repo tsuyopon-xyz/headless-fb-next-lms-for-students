@@ -29,7 +29,7 @@ const LessonPage: React.VFC<Props> = ({ course = DUMMY_SINGLE_COURSE }) => {
         <div className="lg:col-start-1 lg:col-span-2">
           {lesson.embeddedHTML ? (
             <div
-              className="aspect-w-1 aspect-h-1 mb-10"
+              className="aspect-w-16 aspect-h-9 mb-10"
               dangerouslySetInnerHTML={{ __html: lesson.embeddedHTML }}
             ></div>
           ) : null}

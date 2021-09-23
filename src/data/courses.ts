@@ -37,9 +37,9 @@ export const DUMMY_COURSE_SECTIONS: CourseSection[] = Array.from({
     lessons: Array.from({ length: 5 }).map((_, i) => {
       const lessonNumber = i + 1;
       return {
-        id: 'lesson-id-' + lessonNumber,
+        id: `lesson-id-${sectionNumber}-${lessonNumber}`,
         title: 'レッスン' + lessonNumber,
-        slug: 'lesson-' + lessonNumber,
+        slug: `lesson-slug-${sectionNumber}-${lessonNumber}`,
         completionMinutes: 5 + i,
 
         // iframeを想定
