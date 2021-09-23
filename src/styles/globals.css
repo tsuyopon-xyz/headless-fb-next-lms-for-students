@@ -2,8 +2,13 @@
 
 @layer base {
   ul {
-    @apply list-disc;
-    @apply list-inside;
+    @apply list-disc list-inside;
+  }
+  h2 {
+    @apply text-xl leading-8 font-semibold text-black;
+  }
+  a {
+    @apply text-indigo-600;
   }
 }
 

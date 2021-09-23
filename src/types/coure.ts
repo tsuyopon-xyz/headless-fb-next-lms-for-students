@@ -25,7 +25,7 @@ export type CourseLesson = {
   title: string;
   slug: string;
   completionMinutes: number; // 完了までにかかる時間（分換算）
-  movieUrl?: string;
+  embeddedHTML?: string;
   description?: string;
   canPreview?: boolean; // true: 未登録の人も閲覧可能, false: 登録済みの人のみ閲覧可能
 };

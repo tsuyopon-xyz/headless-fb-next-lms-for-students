@@ -41,8 +41,19 @@ export const DUMMY_COURSE_SECTIONS: CourseSection[] = Array.from({
         title: 'レッスン' + lessonNumber,
         slug: 'lesson-' + lessonNumber,
         completionMinutes: 5 + i,
-        movieUrl: 'https://youtu.be/JchsQRonmk8',
-        description: 'ここに動画以外の説明文を記述する。',
+
+        // iframeを想定
+        embeddedHTML: `<iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/JchsQRonmk8"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>`,
+        description:
+          '<h2>解説</h2><p>ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。</p><br/><p>ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。</p><br/><p>ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。ここにテキストを解説を入れる。</p><br/><br/><h2>参考リンク</h2><ul><li><a href="https://tsuyopon.xyz" target="_blank">Web白熱教室</a></li><li><a href="https://tsuyopon.xyz" target="_blank">Web白熱教室</a></li><li><a href="https://tsuyopon.xyz" target="_blank">Web白熱教室</a></li></ul>',
         canPreview: false,
       };
     }),
