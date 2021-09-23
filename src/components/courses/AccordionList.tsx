@@ -10,7 +10,7 @@ type Props = {
 
 export const CourseSections: VFC<Props> = ({ courseDataList }) => {
   return (
-    <div className="bg-white shadow overflow-hidden sm:rounded-md">
+    <div className="bg-white shadow overflow-hidden border rounded-md">
       <ul role="list" className="divide-y divide-gray-200 list-none">
         {courseDataList.map((courseData, i) => {
           const lessonSize = courseData.lessons.length;
@@ -27,7 +27,7 @@ export const CourseSections: VFC<Props> = ({ courseDataList }) => {
                 <li>
                   <Disclosure.Button className="w-full">
                     <div className="px-4 py-4 flex items-center sm:px-6">
-                      <div className="text-gray-500 text-md leading-5 font-normal min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
+                      <div className="text-gray-500 text-md leading-5 font-normal min-w-0 flex-1 flex items-center justify-between">
                         <div className="truncate">
                           <div className="flex">
                             <ChevronRightIcon
@@ -67,7 +67,7 @@ export const CourseSections: VFC<Props> = ({ courseDataList }) => {
                               <Link href={`#${lesson.id}`}>
                                 <a>
                                   <div className="px-4 py-4 flex items-center sm:px-6">
-                                    <div className="text-gray-500 text-md leading-5 font-normal min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
+                                    <div className="text-gray-500 text-md leading-5 font-normal min-w-0 flex-1 flex items-center justify-between">
                                       <div className="truncate">
                                         <div className="flex">
                                           <PlayIcon
