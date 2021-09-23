@@ -1,7 +1,8 @@
 @tailwind base;
 
+/* HTMLコード読み込み部分は、一旦 「@tailwindcss/typography」のproseで対応する */
 @layer base {
-  ul {
+  /* ul {
     @apply list-disc list-inside;
   }
   h2 {
@@ -9,7 +10,7 @@
   }
   a {
     @apply text-indigo-600;
-  }
+  } */
 }
 
 @tailwind components;

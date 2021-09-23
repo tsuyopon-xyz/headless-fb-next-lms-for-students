@@ -61,7 +61,7 @@ const CourseDetailPage: React.VFC<Props> = ({
             />
           </div>
           <AccordionList course={course} />
-          <div className="mt-8">
+          <div className="mt-14">
             <PageTextHTMLSection
               title="前提知識"
               html={course.prerequisite}

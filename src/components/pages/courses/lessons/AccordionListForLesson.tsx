@@ -90,7 +90,7 @@ export const AccordionListForLesson: VFC<Props> = ({
                                       <div className="flex items-center h-5">
                                         <input
                                           type="checkbox"
-                                          className="focus:ring-indigo-50 h-5 w-5 text-pink-600 border-gray-300 rounded"
+                                          className="focus:ring-indigo-50 h-5 w-5 text-indigo-600 border-gray-300 rounded"
                                         />
                                       </div>
                                       <Link
