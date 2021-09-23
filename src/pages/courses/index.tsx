@@ -134,7 +134,7 @@ const SearchFormSection: React.VFC = () => {
   const { searchWord, setSearchWord } = useContext(CoursesPageContext);
 
   return (
-    <div className="mt-1 relative rounded-md shadow-sm border-2 border-gray-300 box-border py-2 pl-3 w-full">
+    <div className="relative rounded-md w-full">
       <input
         type="text"
         name="account-number"

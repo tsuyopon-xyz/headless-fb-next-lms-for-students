@@ -107,14 +107,12 @@ const BriefNoteSection: React.VFC<BriefNoteProps> = ({ html, course }) => {
   const firstLessonSlug = course.sections[0].lessons[0].slug;
 
   return (
-    <>
-      <SimpleCard>
-        <PageTextHTMLSection
-          title="このコースの内容"
-          html={html}
-          className="mt-11"
-        />
-      </SimpleCard>
+    <SimpleCard>
+      <PageTextHTMLSection
+        title="このコースの内容"
+        html={html}
+        className="mt-11"
+      />
       <div className="mt-8 lg:mt-3">
         <Link href={`/courses/${course.slug}/lessons/${firstLessonSlug}`}>
           <a>
@@ -122,7 +120,7 @@ const BriefNoteSection: React.VFC<BriefNoteProps> = ({ html, course }) => {
           </a>
         </Link>
       </div>
-    </>
+    </SimpleCard>
   );
 };
 
