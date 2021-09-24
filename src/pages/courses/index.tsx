@@ -5,9 +5,9 @@ import { SearchIcon } from '@heroicons/react/outline';
 import { PageHeader } from 'src/components/common/PageHeader';
 import { CourseCardGrid } from 'src/components/common/CourseCardGrid';
 import {
-  CoursesPageContext,
-  CoursesPageProvider,
-} from 'src/contexts/pages/courses';
+  CourseDetailPageContext,
+  CourseDetailPageProvider,
+} from 'src/contexts/pages/CourseDetailContext';
 import {
   ArrowNarrowLeftIcon,
   ArrowNarrowRightIcon,
@@ -15,7 +15,7 @@ import {
 
 const CoursesPage: React.VFC = () => {
   return (
-    <CoursesPageProvider>
+    <CourseDetailPageProvider>
       <main className="lg:relative max-w-7xl mx-auto px-4 pb-6">
         <title>講座一覧</title>
         <div className="sm:flex sm:justify-between">
@@ -28,7 +28,7 @@ const CoursesPage: React.VFC = () => {
           <CoursesGridSection />
         </div>
       </main>
-    </CoursesPageProvider>
+    </CourseDetailPageProvider>
   );
 };
 
@@ -38,7 +38,7 @@ type QueryParams = {
 
 const CoursesGridSection: React.VFC = () => {
   const router = useRouter();
-  const { getFilteredCourses } = useContext(CoursesPageContext);
+  const { getFilteredCourses } = useContext(CourseDetailPageContext);
 
   const _courses = getFilteredCourses();
 
@@ -131,7 +131,7 @@ const PaginationSection: React.VFC<PaginationProps> = ({
 };
 
 const SearchFormSection: React.VFC = () => {
-  const { searchWord, setSearchWord } = useContext(CoursesPageContext);
+  const { searchWord, setSearchWord } = useContext(CourseDetailPageContext);
 
   return (
     <div className="relative rounded-md w-full">

@@ -8,9 +8,9 @@ type ContextProps = {
   getFilteredCourses: () => Course[];
 };
 
-export const CoursesPageContext = createContext({} as ContextProps);
+export const CourseDetailPageContext = createContext({} as ContextProps);
 
-export const CoursesPageProvider: FC = ({ children }) => {
+export const CourseDetailPageProvider: FC = ({ children }) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [courses, setCourses] = useState<Course[]>([]);
 
@@ -35,7 +35,7 @@ export const CoursesPageProvider: FC = ({ children }) => {
   };
 
   return (
-    <CoursesPageContext.Provider
+    <CourseDetailPageContext.Provider
       value={{
         searchWord,
         setSearchWord,
@@ -43,6 +43,6 @@ export const CoursesPageProvider: FC = ({ children }) => {
       }}
     >
       {children}
-    </CoursesPageContext.Provider>
+    </CourseDetailPageContext.Provider>
   );
 };
