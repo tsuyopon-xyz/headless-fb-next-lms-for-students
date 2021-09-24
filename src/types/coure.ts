@@ -2,6 +2,7 @@ export type Course = {
   id: string;
   slug: string;
   title: string;
+  excerpt: string; // WordPressの抜粋と同じように110文字までを想定（Card UIの説明文として使う）
   difficulty: string; // 初級、中級、上級などのテキストをセットする想定
   learningOverview: string; // 前提
   prerequisite: string; // 前提

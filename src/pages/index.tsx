@@ -162,8 +162,6 @@ export default IndexPage;
 export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
   const threeCourses = await fetchNew3Courses();
 
-  console.log(threeCourses, '@@@@@@@@@threeCourses');
-
   return {
     props: {
       threeCourses,

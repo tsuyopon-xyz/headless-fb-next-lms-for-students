@@ -1,10 +1,17 @@
 import type { Course, CourseSection } from 'src/types/coure';
 
 const createDummySingleCourse = (id: string): Course => {
+  // 動作確認テスト用に、抜粋文の長さをランダムで短いのと長いので分ける。
+  const excerpt =
+    Math.random() < 0.5
+      ? 'ここにはカードUI上で表示する文章をセットする。WordPressの抜粋文と同じ用に110文字までを想定している。ここにはカードUI上で表示する文章をセットする。WordPressの抜粋文と同じ用に110文字までを想定している。ここにはカードUI上で表示する文章をセットする。ここにはカードUI上で表示する文章をセットする。'
+      : 'ここにはカードUI上で表示する文章をセットする。WordPressの抜粋文と同じ用に110文字までを想定している。';
+
   return {
     id: id,
     slug: 'course-slug-' + id,
     title: `〇〇アプリを作ろう！（${id}）`,
+    excerpt,
     difficulty: '中級',
     learningOverview:
       '<ul><li>〇〇とは何か？</li><li>△△の使い方を覚える</li><li>□□を使いこなせるようになる</li></ul>',
