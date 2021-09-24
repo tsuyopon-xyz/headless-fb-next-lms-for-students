@@ -1,22 +1,7 @@
 import React, { Fragment, VFC } from 'react';
 import Link from 'next/link';
 import { Popover, Transition } from '@headlessui/react';
-import {
-  BookOpenIcon,
-  BookmarkAltIcon,
-  CalendarIcon,
-  ChartBarIcon,
-  CursorClickIcon,
-  MenuIcon,
-  PhoneIcon,
-  PlayIcon,
-  RefreshIcon,
-  ShieldCheckIcon,
-  SupportIcon,
-  ViewGridIcon,
-  XIcon,
-} from '@heroicons/react/outline';
-import { ChevronDownIcon } from '@heroicons/react/solid';
+import { BookOpenIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 
 const menus = [
   {
@@ -52,6 +37,7 @@ export const Header: VFC = () => {
               ))}
             </nav>
           </div>
+
           <div className="-mr-2 -my-2 md:hidden">
             <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
               <span className="sr-only">Open menu</span>
@@ -59,7 +45,8 @@ export const Header: VFC = () => {
             </Popover.Button>
           </div>
 
-          <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+          {/* 認証機能は一旦無しにして、ログインユーザーでなくても、学習記録を残せるようにする */}
+          {/* <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <Link href="/signin">
               <a className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
                 ログイン
@@ -70,7 +57,7 @@ export const Header: VFC = () => {
                 新規登録
               </a>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -126,7 +113,8 @@ export const Header: VFC = () => {
                   </nav>
                 </div>
               </div>
-              <div className="py-6 px-5 space-y-6">
+              {/* 認証機能は一旦無しにして、ログインユーザーでなくても、学習記録を残せるようにする */}
+              {/* <div className="py-6 px-5 space-y-6">
                 <div>
                   <Link href="#">
                     <a
@@ -148,7 +136,7 @@ export const Header: VFC = () => {
                     </Link>
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
         </Popover.Panel>
