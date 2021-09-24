@@ -6,6 +6,11 @@ import { PageHeader } from 'src/components/common/PageHeader';
 import { PageTextHTMLSection } from 'src/components/common/PageTextHTMLSection';
 import { Button } from 'src/components/common/Button';
 import { DUMMY_SINGLE_COURSE } from 'src/data/courses';
+import {
+  getNumbersOfSections,
+  getNumbersOfAllLessons,
+  calculateTotalCompletionMinutes,
+} from 'src/utils/course.util';
 import type { Course } from 'src/types/coure';
 
 type Props = {
@@ -15,27 +20,18 @@ type Props = {
 const CourseDetailPage: React.VFC<Props> = ({
   course = DUMMY_SINGLE_COURSE,
 }) => {
-  const numberOfSections = course.sections.length;
-  const numberOfLessons = course.sections.reduce((sum, section) => {
-    return sum + section.lessons.length;
-  }, 0);
-  const totalCompletionMinutes = course.sections.reduce((sum, section) => {
-    return (
-      sum +
-      section.lessons.reduce((_sum, lesson) => {
-        return _sum + lesson.completionMinutes;
-      }, 0)
-    );
-  }, 0);
+  const numberOfSections = getNumbersOfSections(course);
+  const numberOfAllLessons = getNumbersOfAllLessons(course);
+  const totalCompletionMinutes = calculateTotalCompletionMinutes(course);
   const briefNoteHTML = `
     <ul>
       <li>難易度: ${course.difficulty}</li>
-      <li>セクションの数: ${numberOfSections}</li>
-      <li>レッスンの数: ${numberOfLessons}</li>
+      <li>セクションの数: ${numberOfSections}個</li>
+      <li>レッスンの数: ${numberOfAllLessons}個</li>
       <li>合計時間: ${totalCompletionMinutes}分</li>
     </ul>
   `;
-  const firstLessonSlug = course.sections[0].lessons[0].slug;
+  const firstLessonSlug = course.sections![0].lessons[0].slug;
 
   return (
     <main className="lg:relative max-w-7xl mx-auto px-4 py-6">
@@ -57,7 +53,7 @@ const CourseDetailPage: React.VFC<Props> = ({
           <div className="mt-8">
             <PageTextHTMLSection
               title="レッスン一覧"
-              html={`セクションの数: ${numberOfSections}・レッスンの数: ${numberOfLessons}・総時間: ${totalCompletionMinutes}分`}
+              html={`セクションの数 ${numberOfSections}個・レッスンの数 ${numberOfAllLessons}個・合計時間 ${totalCompletionMinutes}分`}
             />
           </div>
           <AccordionList course={course} />
@@ -104,7 +100,7 @@ type BriefNoteProps = {
   course: Course;
 };
 const BriefNoteSection: React.VFC<BriefNoteProps> = ({ html, course }) => {
-  const firstLessonSlug = course.sections[0].lessons[0].slug;
+  const firstLessonSlug = course.sections![0].lessons[0].slug;
 
   return (
     <SimpleCard>

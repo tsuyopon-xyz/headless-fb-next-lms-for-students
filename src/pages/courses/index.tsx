@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SearchIcon } from '@heroicons/react/outline';
 import { PageHeader } from 'src/components/common/PageHeader';
-import { CourseCardGrid } from '../../components/common/CourseCardGrid';
+import { CourseCardGrid } from 'src/components/common/CourseCardGrid';
 import {
   CoursesPageContext,
   CoursesPageProvider,
-} from '../../contexts/pages/courses';
+} from 'src/contexts/pages/courses';
 import {
   ArrowNarrowLeftIcon,
   ArrowNarrowRightIcon,

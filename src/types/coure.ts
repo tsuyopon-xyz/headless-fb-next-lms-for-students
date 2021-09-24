@@ -11,7 +11,7 @@ export type Course = {
   updatedAt: string; // 表示用の更新日時
   price: number;
   isPublic: boolean; // true: 講座一覧に表示する, false: 講座一覧に表示しない
-  sections: CourseSection[];
+  sections?: CourseSection[];
 };
 
 export type CourseSection = {

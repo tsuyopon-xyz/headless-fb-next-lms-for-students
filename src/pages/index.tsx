@@ -1,4 +1,5 @@
 import React, { VFC } from 'react';
+import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
 import {
@@ -6,12 +7,17 @@ import {
   LightningBoltIcon,
   ScaleIcon,
 } from '@heroicons/react/outline';
-import { Button } from '../components/common/Button';
-import { CourseCardGrid } from '../components/common/CourseCardGrid';
-import { courses } from '../data/courses';
+import { Button } from 'src/components/common/Button';
+import { CourseCardGrid } from 'src/components/common/CourseCardGrid';
+import { fetchNew3Courses } from 'src/services/courses.service';
+import type { Course } from 'src/types/coure';
+
+type PageProps = {
+  threeCourses: Course[];
+};
 
 // markup
-const IndexPage = () => {
+const IndexPage: React.VFC<PageProps> = ({ threeCourses }) => {
   return (
     <main className="lg:relative">
       <Head>
@@ -21,7 +27,7 @@ const IndexPage = () => {
         <HeroSection />
       </div>
       <div className="bg-gray-100">
-        <ThreeCoursesSection />
+        <ThreeCoursesSection threeCourses={threeCourses} />
       </div>
       <div className="max-w-7xl mx-auto px-4 py-6">
         <TargetUserSection />
@@ -69,7 +75,10 @@ const HeroSection: VFC = () => {
   );
 };
 
-const ThreeCoursesSection: VFC = () => {
+type ThreeCoursesSectionProps = PageProps;
+const ThreeCoursesSection: VFC<ThreeCoursesSectionProps> = ({
+  threeCourses,
+}) => {
   return (
     <div className="relative pt-16 pb-20 px-4 sm:px-6 lg:py-10 lg:px-4 max-w-7xl mx-auto">
       <div className="absolute inset-0">
@@ -82,7 +91,7 @@ const ThreeCoursesSection: VFC = () => {
           </h2>
         </div>
         <div className="mt-12">
-          <CourseCardGrid courses={courses.slice(0, 3)} />
+          <CourseCardGrid courses={threeCourses} />
         </div>
         <div className="flex justify-center mt-10">
           <Button size="3lg">
@@ -99,19 +108,19 @@ const ThreeCoursesSection: VFC = () => {
 const TargetUserSection: VFC = () => {
   const features = [
     {
-      name: 'Competitive exchange rates',
+      name: '次に何をすれば良いかわからない人',
       description:
         'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
       icon: GlobeAltIcon,
     },
     {
-      name: 'No hidden fees',
+      name: 'とにかくポートフォリオを作りたい人',
       description:
         'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
       icon: ScaleIcon,
     },
     {
-      name: 'Transfers are instant',
+      name: 'いろんなサービスを作ってみたい人',
       description:
         'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
       icon: LightningBoltIcon,
@@ -149,3 +158,15 @@ const TargetUserSection: VFC = () => {
 };
 
 export default IndexPage;
+
+export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
+  const threeCourses = await fetchNew3Courses();
+
+  console.log(threeCourses, '@@@@@@@@@threeCourses');
+
+  return {
+    props: {
+      threeCourses,
+    },
+  };
+};
