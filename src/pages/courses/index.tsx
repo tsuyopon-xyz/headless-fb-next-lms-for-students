@@ -7,7 +7,7 @@ import { CourseCardGrid } from 'src/components/common/CourseCardGrid';
 import {
   CourseDetailPageContext,
   CourseDetailPageProvider,
-} from 'src/contexts/pages/CourseDetailContext';
+} from 'src/contexts/pages/CourseDetailPageContext';
 import {
   ArrowNarrowLeftIcon,
   ArrowNarrowRightIcon,
