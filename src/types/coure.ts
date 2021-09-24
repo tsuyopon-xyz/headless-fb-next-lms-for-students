@@ -30,3 +30,7 @@ export type CourseLesson = {
   description?: string;
   canPreview?: boolean; // true: 未登録の人も閲覧可能, false: 登録済みの人のみ閲覧可能
 };
+
+export type CompletedLessonMap = {
+  [lessonId in string]: boolean | undefined;
+};

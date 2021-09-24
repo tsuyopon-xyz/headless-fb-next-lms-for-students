@@ -1,7 +1,8 @@
-import React, { VFC } from 'react';
+import React, { VFC, useContext } from 'react';
 import Link from 'next/link';
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import { Disclosure, Transition } from '@headlessui/react';
+import { LessonPageContext } from 'src/contexts/pages/LessonPageContext';
 import type { Course } from 'src/types/coure';
 
 type Props = {
@@ -13,6 +14,8 @@ export const AccordionListForLesson: VFC<Props> = ({
   course,
   currentLessonSlug,
 }) => {
+  const { completeLesson, returnLessonToIncomplete, hasLessonCompleted } =
+    useContext(LessonPageContext);
   const { sections } = course;
 
   return (
@@ -89,6 +92,18 @@ export const AccordionListForLesson: VFC<Props> = ({
                                         <input
                                           type="checkbox"
                                           className="focus:ring-indigo-50 h-5 w-5 text-indigo-600 border-gray-300 rounded"
+                                          checked={hasLessonCompleted(
+                                            lesson.id
+                                          )}
+                                          onChange={async (event) => {
+                                            if (event.target.checked) {
+                                              await completeLesson(lesson.id);
+                                            } else {
+                                              await returnLessonToIncomplete(
+                                                lesson.id
+                                              );
+                                            }
+                                          }}
                                         />
                                       </div>
                                       <Link
