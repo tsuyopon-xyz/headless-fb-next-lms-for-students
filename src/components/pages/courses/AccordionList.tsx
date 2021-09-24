@@ -2,7 +2,6 @@ import React, { VFC } from 'react';
 import Link from 'next/link';
 import { PlayIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { Disclosure, Transition } from '@headlessui/react';
-
 import type { Course } from 'src/types/coure';
 
 type Props = {
