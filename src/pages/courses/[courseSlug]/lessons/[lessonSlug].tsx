@@ -1,12 +1,15 @@
 import React from 'react';
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
+import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
 import { AccordionListForLesson } from 'src/components/pages/courses/lessons/AccordionListForLesson';
 import { PageHeader } from 'src/components/common/PageHeader';
 import { PageTextHTMLSection } from 'src/components/common/PageTextHTMLSection';
 import { Button } from 'src/components/common/Button';
-import { DUMMY_SINGLE_COURSE } from 'src/data/courses';
+import {
+  fetchCourseBySlug,
+  fetchLessonBySlugs,
+} from 'src/services/courses.service';
 import type { Course, CourseLesson } from 'src/types/coure';
 
 type QueryParams = {
@@ -77,13 +80,10 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (
   const { params } = context;
   const { courseSlug, lessonSlug } = params as QueryParams;
 
-  const courseSections = DUMMY_SINGLE_COURSE.sections;
-  const courseLessons = courseSections.map((section) => section.lessons).flat();
+  const course = await fetchCourseBySlug(courseSlug);
+  const lesson = await fetchLessonBySlugs(courseSlug, lessonSlug);
 
-  // TODO: API経由で取得する
-  const lesson = courseLessons.find((lesson) => lessonSlug === lesson.slug);
-
-  if (!courseSlug || !lessonSlug || !lesson) {
+  if (!courseSlug || !lessonSlug || !course || !lesson) {
     return {
       notFound: true,
     };
@@ -91,9 +91,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (
 
   return {
     props: {
-      course: DUMMY_SINGLE_COURSE,
+      course,
       lesson,
-      courseSlug: courseSlug,
+      courseSlug,
       lessonSlug,
     },
   };

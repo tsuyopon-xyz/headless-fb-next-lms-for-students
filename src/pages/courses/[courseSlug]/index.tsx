@@ -1,25 +1,31 @@
 import React from 'react';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { AccordionList } from 'src/components/pages/courses/AccordionList';
 import { PageHeader } from 'src/components/common/PageHeader';
 import { PageTextHTMLSection } from 'src/components/common/PageTextHTMLSection';
 import { Button } from 'src/components/common/Button';
-import { DUMMY_SINGLE_COURSE } from 'src/data/courses';
 import {
   getNumbersOfSections,
   getNumbersOfAllLessons,
   calculateTotalCompletionMinutes,
 } from 'src/utils/course.util';
+import {
+  fetchAllCourses,
+  fetchCourseBySlug,
+} from 'src/services/courses.service';
 import type { Course } from 'src/types/coure';
 
-type Props = {
+type QueryParams = {
+  courseSlug: string;
+};
+
+type PageProps = QueryParams & {
   course: Course;
 };
 
-const CourseDetailPage: React.VFC<Props> = ({
-  course = DUMMY_SINGLE_COURSE,
-}) => {
+const CourseDetailPage: React.VFC<PageProps> = ({ course, courseSlug }) => {
   const numberOfSections = getNumbersOfSections(course);
   const numberOfAllLessons = getNumbersOfAllLessons(course);
   const totalCompletionMinutes = calculateTotalCompletionMinutes(course);
@@ -118,6 +124,41 @@ const BriefNoteSection: React.VFC<BriefNoteProps> = ({ html, course }) => {
       </div>
     </SimpleCard>
   );
+};
+
+export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
+  const courses = await fetchAllCourses();
+  const paths = courses.map((course) => {
+    return {
+      params: {
+        courseSlug: course.slug,
+      },
+    };
+  });
+
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
+  const { params } = context;
+  const { courseSlug } = params as QueryParams;
+  const course = await fetchCourseBySlug(courseSlug);
+
+  if (!course) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      courseSlug,
+      course,
+    },
+  };
 };
 
 export default CourseDetailPage;

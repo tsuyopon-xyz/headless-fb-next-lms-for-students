@@ -2,6 +2,7 @@ import React, { VFC } from 'react';
 import Link from 'next/link';
 import { PlayIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { Disclosure, Transition } from '@headlessui/react';
+
 import type { Course } from 'src/types/coure';
 
 type Props = {
@@ -14,7 +15,7 @@ export const AccordionList: VFC<Props> = ({ course }) => {
   return (
     <div className="bg-white shadow overflow-hidden border rounded-md">
       <ul role="list" className="divide-y divide-gray-200 list-none">
-        {sections.map((section, i) => {
+        {sections?.map((section, i) => {
           const lessonSize = section.lessons.length;
           const sectionTotalMinutes = section.lessons.reduce(
             (sumMinutes, lesson) => {

@@ -15,12 +15,10 @@ export const AccordionListForLesson: VFC<Props> = ({
 }) => {
   const { sections } = course;
 
-  console.log(currentLessonSlug);
-
   return (
     <div className="bg-white shadow overflow-hidden border rounded-md">
       <ul role="list" className="divide-y divide-gray-200 list-none">
-        {sections.map((section, i) => {
+        {sections?.map((section, i) => {
           const lessonSize = section.lessons.length;
           const sectionTotalMinutes = section.lessons.reduce(
             (sumMinutes, lesson) => {

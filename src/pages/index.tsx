@@ -157,8 +157,6 @@ const TargetUserSection: VFC = () => {
   );
 };
 
-export default IndexPage;
-
 export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
   const threeCourses = await fetchNew3Courses();
 
@@ -168,3 +166,5 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
     },
   };
 };
+
+export default IndexPage;

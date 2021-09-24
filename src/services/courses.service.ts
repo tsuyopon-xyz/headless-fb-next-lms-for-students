@@ -1,5 +1,5 @@
 import { DUMMY_COURSES } from 'src/data/courses';
-import type { Course, CourseSection } from 'src/types/coure';
+import type { Course, CourseLesson, CourseSection } from 'src/types/coure';
 
 // TODO: API経由のデータ取得に切り替えたら、ここのコメントを削除する
 //
@@ -24,4 +24,17 @@ export const fetchCourseBySlug = async (
   slug: string
 ): Promise<Course | undefined> => {
   return DUMMY_COURSES.find((course) => course.slug === slug);
+};
+
+export const fetchLessonBySlugs = async (
+  courseSlug: string,
+  lessonSlug: string
+): Promise<CourseLesson | undefined> => {
+  const course = await fetchCourseBySlug(courseSlug);
+  if (!course) return;
+
+  const lessons = course.sections?.map((section) => section.lessons).flat();
+  if (!lessons || lessons.length === 0) return;
+
+  return lessons.find((lesson) => lesson.slug === lessonSlug);
 };
