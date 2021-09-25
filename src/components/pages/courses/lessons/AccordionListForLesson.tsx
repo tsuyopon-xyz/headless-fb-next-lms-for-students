@@ -23,18 +23,12 @@ export const AccordionListForLesson: VFC<Props> = ({
       <ul role="list" className="divide-y divide-gray-200 list-none">
         {sections?.map((section, i) => {
           const lessonSize = section.lessons.length;
-          const sectionTotalMinutes = section.lessons.reduce(
-            (sumMinutes, lesson) => {
-              return sumMinutes + lesson.completionMinutes;
-            },
-            0
-          );
           const isLessonIncluded = section.lessons.some(
             (lesson) => lesson.slug === currentLessonSlug
           );
 
           return (
-            <Disclosure key={section.id} defaultOpen={isLessonIncluded}>
+            <Disclosure key={i} defaultOpen={isLessonIncluded}>
               {({ open }) => (
                 <li>
                   <Disclosure.Button className="w-full">

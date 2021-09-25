@@ -1,21 +1,28 @@
 import React, { useContext } from 'react';
+import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SearchIcon } from '@heroicons/react/outline';
-import { PageHeader } from 'src/components/common/PageHeader';
-import { CourseCardGrid } from 'src/components/common/CourseCardGrid';
-import {
-  CourseDetailPageContext,
-  CourseDetailPageProvider,
-} from 'src/contexts/pages/CourseDetailPageContext';
 import {
   ArrowNarrowLeftIcon,
   ArrowNarrowRightIcon,
 } from '@heroicons/react/solid';
+import { PageHeader } from 'src/components/common/PageHeader';
+import { CourseCardGrid } from 'src/components/common/CourseCardGrid';
+import {
+  CoursesPageContext,
+  CoursesPageProvider,
+} from 'src/contexts/pages/CoursesPageContext';
+import { fetchAllCourses } from 'src/services/courses.service';
+import type { Course } from 'src/types/coure';
 
-const CoursesPage: React.VFC = () => {
+type PageProps = {
+  courses: Course[];
+};
+
+const CoursesPage: React.VFC<PageProps> = ({ courses }) => {
   return (
-    <CourseDetailPageProvider>
+    <CoursesPageProvider>
       <main className="lg:relative max-w-7xl mx-auto px-4 pb-6">
         <title>講座一覧</title>
         <div className="sm:flex sm:justify-between">
@@ -25,10 +32,10 @@ const CoursesPage: React.VFC = () => {
           </div>
         </div>
         <div className="mt-8 sm:mt-0">
-          <CoursesGridSection />
+          <CoursesGridSection courses={courses} />
         </div>
       </main>
-    </CourseDetailPageProvider>
+    </CoursesPageProvider>
   );
 };
 
@@ -36,13 +43,15 @@ type QueryParams = {
   page?: string;
 };
 
-const CoursesGridSection: React.VFC = () => {
+const CoursesGridSection: React.VFC<PageProps> = ({ courses }) => {
   const router = useRouter();
-  const { getFilteredCourses } = useContext(CourseDetailPageContext);
+  const { getFilteredCourses } = useContext(CoursesPageContext);
 
-  const _courses = getFilteredCourses();
-
+  // TODO: サーバープロセスで、microCMSからデータを取得する必要があるため、現状のCoursesPageContextの作りを見直す必要がある。
+  // TODO: CoursesPageContextの仕様を対応するまでフィルタリング処理は一旦無効にする
+  // const _courses = getFilteredCourses();
   // const [page, _] = useQueryParam('page', withDefault(NumberParam, 1));
+
   const queryParams = router.query as QueryParams;
   const page =
     queryParams.page && queryParams.page.length > 0
@@ -51,7 +60,7 @@ const CoursesGridSection: React.VFC = () => {
 
   const perPage = 10;
   const startIndex = perPage * (page - 1);
-  const pageCourses = _courses.slice(startIndex, startIndex + perPage);
+  const pageCourses = courses.slice(startIndex, startIndex + perPage);
 
   return (
     <>
@@ -59,7 +68,7 @@ const CoursesGridSection: React.VFC = () => {
       <div className="mt-10">
         <PaginationSection
           perPage={perPage}
-          total={_courses.length}
+          total={courses.length}
           currentPage={page}
         />
       </div>
@@ -131,7 +140,7 @@ const PaginationSection: React.VFC<PaginationProps> = ({
 };
 
 const SearchFormSection: React.VFC = () => {
-  const { searchWord, setSearchWord } = useContext(CourseDetailPageContext);
+  const { searchWord, setSearchWord } = useContext(CoursesPageContext);
 
   return (
     <div className="relative rounded-md w-full">
@@ -149,6 +158,16 @@ const SearchFormSection: React.VFC = () => {
       </div>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
+  const courses = await fetchAllCourses();
+
+  return {
+    props: {
+      courses,
+    },
+  };
 };
 
 export default CoursesPage;

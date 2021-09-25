@@ -4,8 +4,8 @@ export type Course = {
   title: string;
   excerpt: string; // WordPressの抜粋と同じように110文字までを想定（Card UIの説明文として使う）
   difficulty: string; // 初級、中級、上級などのテキストをセットする想定
-  learningOverview: string; // 前提
-  prerequisite: string; // 前提
+  learningOverview: string; // 学習内容
+  prerequisite: string; // 前提知識
   description: string; // 講座の詳細
   imageUrl: string;
   publishedAt: string; // 表示用の公開日時
@@ -16,7 +16,6 @@ export type Course = {
 };
 
 export type CourseSection = {
-  id: string;
   title: string;
   lessons: CourseLesson[];
 };
@@ -26,8 +25,8 @@ export type CourseLesson = {
   title: string;
   slug: string;
   completionMinutes: number; // 完了までにかかる時間（分換算）
-  embeddedHTML?: string;
-  description?: string;
+  embeddedHTML?: string | null;
+  description?: string | null;
   canPreview?: boolean; // true: 未登録の人も閲覧可能, false: 登録済みの人のみ閲覧可能
 };
 

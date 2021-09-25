@@ -3,25 +3,26 @@ import { fetchAllCourses } from 'src/services/courses.service';
 import type { Course } from 'src/types/coure';
 
 type ContextProps = {
+  setCourses: (courses: Course[]) => void;
   searchWord: string;
   setSearchWord: (word: string) => void;
   getFilteredCourses: () => Course[];
 };
 
-export const CourseDetailPageContext = createContext({} as ContextProps);
+export const CoursesPageContext = createContext({} as ContextProps);
 
-export const CourseDetailPageProvider: FC = ({ children }) => {
+export const CoursesPageProvider: FC = ({ children }) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [courses, setCourses] = useState<Course[]>([]);
 
-  useEffect(() => {
-    async function fetchCourses() {
-      const allCourses = await fetchAllCourses();
-      setCourses(allCourses);
-    }
+  // useEffect(() => {
+  //   async function fetchCourses() {
+  //     const allCourses = await fetchAllCourses();
+  //     setCourses(allCourses);
+  //   }
 
-    fetchCourses();
-  }, []);
+  //   fetchCourses();
+  // }, []);
 
   const getFilteredCourses = () => {
     if (!searchWord) return courses;
@@ -35,14 +36,15 @@ export const CourseDetailPageProvider: FC = ({ children }) => {
   };
 
   return (
-    <CourseDetailPageContext.Provider
+    <CoursesPageContext.Provider
       value={{
+        setCourses,
         searchWord,
         setSearchWord,
         getFilteredCourses,
       }}
     >
       {children}
-    </CourseDetailPageContext.Provider>
+    </CoursesPageContext.Provider>
   );
 };
