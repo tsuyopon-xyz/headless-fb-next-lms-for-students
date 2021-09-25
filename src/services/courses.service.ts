@@ -36,11 +36,13 @@ type ResponseCourseType = {
   };
   price: number;
   isPublic: boolean;
-  sections?: {
-    fieldId: string;
-    title: string;
-    lessons: ResponseLessonType[];
-  }[];
+  sections?: ResponseSectionType[];
+};
+
+type ResponseSectionType = {
+  fieldId: string;
+  title: string;
+  lessons: ResponseLessonType[];
 };
 
 // MicroCMSのAPIのレスポンスタイプ（レッスン1件）
@@ -73,42 +75,7 @@ export const fetchAllCourses = async (): Promise<Course[]> => {
     },
   });
   const courses: Course[] = response.contents.map((content) => {
-    const sections: CourseSection[] =
-      content.sections?.map((section) => {
-        return {
-          title: section.title,
-          lessons: section.lessons.map((lesson) => ({
-            id: lesson.id,
-            title: lesson.title,
-            slug: lesson.slug,
-            completionMinutes: lesson.completionMinutes,
-
-            // デフォルト値として `null` を設定している理由は、以下のエラーメッセージが表示されたため
-            // SerializableError: Error serializing `.courses[0].sections[1].lessons[1].description` returned from `getStaticProps` in "/courses".
-            // Reason: `undefined` cannot be serialized as JSON. Please use `null` or omit this value.
-            embeddedHTML: lesson.embeddedHTML ?? null,
-            description: lesson.description ?? null,
-            canPreview: lesson.canPreview,
-          })),
-        };
-      }) ?? [];
-
-    const course: Course = {
-      id: content.id,
-      slug: content.slug,
-      title: content.title,
-      excerpt: content.excerpt,
-      difficulty: content.difficulty[0],
-      learningOverview: content.learningOverview,
-      prerequisite: content.prerequisite,
-      description: content.description,
-      imageUrl: content.image.url,
-      publishedAt: content.publishedAt,
-      updatedAt: content.updatedAt,
-      price: content.price,
-      isPublic: content.isPublic,
-      sections: sections,
-    };
+    const course: Course = mapResponseCourseToAppCourse(content);
 
     return course;
   });
@@ -129,7 +96,23 @@ export const fetchCourseById = async (
 export const fetchCourseBySlug = async (
   slug: string
 ): Promise<Course | undefined> => {
-  return DUMMY_COURSES.find((course) => course.slug === slug);
+  const response = await client.get<ResponseCourseListType>({
+    endpoint: 'courses',
+    queries: {
+      // 全てのデータを一気に取得するために、limitに大きな値をセットしている
+      // 1000件以上の講座データがある場合は、1001以上の値をセットする
+      limit: 1,
+      filters: `slug[equals]${slug}`,
+    },
+  });
+
+  const content = response.contents[0];
+
+  if (!content) return;
+
+  const course = mapResponseCourseToAppCourse(content);
+
+  return course;
 };
 
 export const fetchLessonBySlugs = async (
@@ -143,4 +126,55 @@ export const fetchLessonBySlugs = async (
   if (!lessons || lessons.length === 0) return;
 
   return lessons.find((lesson) => lesson.slug === lessonSlug);
+};
+
+// Private functions
+
+const mapResponseCourseToAppCourse = (
+  responseCourse: ResponseCourseType
+): Course => {
+  return {
+    id: responseCourse.id,
+    slug: responseCourse.slug,
+    title: responseCourse.title,
+    excerpt: responseCourse.excerpt,
+    difficulty: responseCourse.difficulty[0],
+    learningOverview: responseCourse.learningOverview,
+    prerequisite: responseCourse.prerequisite,
+    description: responseCourse.description,
+    imageUrl: responseCourse.image.url,
+    publishedAt: responseCourse.publishedAt,
+    updatedAt: responseCourse.updatedAt,
+    price: responseCourse.price,
+    isPublic: responseCourse.isPublic,
+    sections: mapResponseCourseSectionsToAppCourseSections(
+      responseCourse.sections
+    ),
+  };
+};
+
+const mapResponseCourseSectionsToAppCourseSections = (
+  responseSections: ResponseSectionType[] | undefined
+): CourseSection[] => {
+  const sections: CourseSection[] =
+    responseSections?.map((section) => {
+      return {
+        title: section.title,
+        lessons: section.lessons.map((lesson) => ({
+          id: lesson.id,
+          title: lesson.title,
+          slug: lesson.slug,
+          completionMinutes: lesson.completionMinutes,
+
+          // デフォルト値として `null` を設定している理由は、以下のエラーメッセージが表示されたため
+          // SerializableError: Error serializing `.courses[0].sections[1].lessons[1].description` returned from `getStaticProps` in "/courses".
+          // Reason: `undefined` cannot be serialized as JSON. Please use `null` or omit this value.
+          embeddedHTML: lesson.embeddedHTML ?? null,
+          description: lesson.description ?? null,
+          canPreview: lesson.canPreview,
+        })),
+      };
+    }) ?? [];
+
+  return sections;
 };
