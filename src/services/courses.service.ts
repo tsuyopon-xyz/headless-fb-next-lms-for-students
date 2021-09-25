@@ -84,7 +84,9 @@ export const fetchAllCourses = async (): Promise<Course[]> => {
 };
 
 export const fetchNew3Courses = async (): Promise<Course[]> => {
-  return DUMMY_COURSES.slice(0, 3);
+  const courses = await fetchAllCourses();
+
+  return courses.slice(0, 3);
 };
 
 export const fetchCourseById = async (
