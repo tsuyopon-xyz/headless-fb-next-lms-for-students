@@ -27,9 +27,11 @@ const CoursesPage: React.VFC<PageProps> = ({ courses }) => {
         <title>講座一覧</title>
         <div className="sm:flex sm:justify-between">
           <PageHeader title="講座一覧" />
-          <div className="sm:flex sm:items-center sm:w-80">
+          {/* // TODO: サーバープロセスで、microCMSからデータを取得する必要があるため、現状のCoursesPageContextの作りを見直す必要がある。
+          // TODO: CoursesPageContextの仕様を対応するまでフィルタリング処理は一旦無効にする */}
+          {/* <div className="sm:flex sm:items-center sm:w-80">
             <SearchFormSection />
-          </div>
+          </div> */}
         </div>
         <div className="mt-8 sm:mt-0">
           <CoursesGridSection courses={courses} />

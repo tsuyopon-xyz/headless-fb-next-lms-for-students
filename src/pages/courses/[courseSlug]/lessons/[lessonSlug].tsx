@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
 import { AccordionListForLesson } from 'src/components/pages/courses/lessons/AccordionListForLesson';
@@ -7,9 +7,11 @@ import { PageHeader } from 'src/components/common/PageHeader';
 import { PageTextHTMLSection } from 'src/components/common/PageTextHTMLSection';
 import { Button } from 'src/components/common/Button';
 import {
+  fetchAllCourses,
   fetchCourseBySlug,
   fetchLessonBySlugs,
 } from 'src/services/courses.service';
+import { getAllLessonsInCourse } from 'src/utils/course.util';
 import { LessonPageProvider } from 'src/contexts/pages/LessonPageContext';
 import type { Course, CourseLesson } from 'src/types/coure';
 
@@ -70,16 +72,29 @@ const LessonPage: React.VFC<PageProps> = ({
   );
 };
 
-/**
- * レッスン詳細は将来的にログインユーザーしか見れないようにしたい。
- * そのため、レッスン詳細のデータを静的ファイルとして生成すると、
- * ログインしていない人でもHTMLのURLをしっていれば取得できてしまうため、
- * getServerSidePropsで「サーバーレンダリング」で対応する
- * @param context
- */
-export const getServerSideProps: GetServerSideProps<PageProps> = async (
-  context
-) => {
+export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
+  const courses = await fetchAllCourses();
+
+  const paths = courses
+    .map((course) => {
+      const lessons = getAllLessonsInCourse(course);
+
+      return lessons!.map((lesson) => ({
+        params: {
+          courseSlug: course.slug,
+          lessonSlug: lesson.slug,
+        },
+      }));
+    })
+    .flat();
+
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
   const { params } = context;
   const { courseSlug, lessonSlug } = params as QueryParams;
 
